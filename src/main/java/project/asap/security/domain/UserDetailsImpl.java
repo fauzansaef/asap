@@ -23,7 +23,6 @@ public class UserDetailsImpl implements UserDetails {
     @JsonIgnore
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
-    private Users users;
 
 
     public UserDetailsImpl(Long id, Collection<? extends GrantedAuthority> authorities, String username, String password, String email) {
