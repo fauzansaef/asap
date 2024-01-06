@@ -8,13 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import project.asap.security.domain.UserDetailsImpl;
 import project.asap.security.domain.UserDetailsResponse;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
-
-import static org.springframework.util.FileCopyUtils.copyToByteArray;
-
 @Component
 public class JwtUtils {
     private static final Logger logger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(JwtUtils.class);
