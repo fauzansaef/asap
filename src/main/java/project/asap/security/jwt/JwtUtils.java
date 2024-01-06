@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import project.asap.security.domain.UserDetailsImpl;
 import project.asap.security.domain.UserDetailsResponse;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import static org.springframework.util.FileCopyUtils.copyToByteArray;
@@ -39,7 +41,7 @@ public class JwtUtils {
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .claim("userDetails", new UserDetailsResponse(
                         userPrincipal.getId(),
-                        userPrincipal.getUsers().getIp(),
+                        userPrincipal.getUsername(),
                         userPrincipal.getEmail(),
                         userPrincipal.getAuthorities()))
                 .compact();
