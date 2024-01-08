@@ -40,6 +40,12 @@ public class Users extends AuditEntity {
     private String rememberToken;
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "section_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Sections sections;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sub_section_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private SubSections subSections;
 
 
 }

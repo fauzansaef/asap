@@ -20,17 +20,26 @@ public class UserDetailsImpl implements UserDetails {
     private Long id;
     private String username;
     private String email;
+    private String ip;
+    private String phoneNumber;
+    private String section;
+    private String subsecstion;
     @JsonIgnore
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
 
-    public UserDetailsImpl(Long id, Collection<? extends GrantedAuthority> authorities, String username, String password, String email) {
+    public UserDetailsImpl(Long id, Collection<? extends GrantedAuthority> authorities, String username, String password,
+                           String email, String ip, String phoneNumber, String section, String subsecstion) {
         this.id = id;
         this.authorities = authorities;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.ip = ip;
+        this.phoneNumber = phoneNumber;
+        this.section = section;
+        this.subsecstion = subsecstion;
     }
 
     public static UserDetailsImpl build(Users users) {
@@ -38,7 +47,8 @@ public class UserDetailsImpl implements UserDetails {
         Collection<GrantedAuthority> authorities = new HashSet<>();
         authorities.add(role);
 
-        return new UserDetailsImpl(users.getId(), authorities, users.getIp(), users.getPassword(), users.getEmail());
+        return new UserDetailsImpl(users.getId(), authorities, users.getEmail(), users.getPassword(), users.getEmail(),
+                users.getIp(), users.getPhoneNumber(), users.getSections().getSectionName(), users.getSubSections().getSubSectionName());
     }
 
 
