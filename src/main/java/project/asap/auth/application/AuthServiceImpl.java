@@ -53,10 +53,6 @@ public class AuthServiceImpl implements AuthService {
             userDetails = (UserDetailsImpl) authentication.getPrincipal();
         }
 
-
-        Users users = usersRepository.findByIp(userDetails.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("username not found : " + userDetails.getUsername()));
-
         logger.info("login success : " + authRequest.getUsername());
         return new JwtResponse(userDetails.getUsername(), userDetails.getEmail(), userDetails.getAuthorities(), jwt, "Bearer");
 
