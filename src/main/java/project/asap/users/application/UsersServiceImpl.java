@@ -1,5 +1,7 @@
 package project.asap.users.application;
 
+import ch.qos.logback.classic.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +21,7 @@ import project.asap.utility.MessageResponse;
 @Service
 @Transactional
 public class UsersServiceImpl implements UsersService {
+    private static final Logger logger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(UsersServiceImpl.class);
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -48,42 +51,64 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public MessageResponse save(UserRequest userRequest) {
-        Users users = new Users();
-        users.setName(userRequest.getIpPegawai());
-        users.setEmail(users.getEmail());
-        users.setIp(users.getIp());
-        users.setRole(users.getRole());
-        usersRepository.save(users);
-        return new MessageResponse("success", HttpStatus.OK);
+        try {
+            Users users = new Users();
+            users.setName(userRequest.getIpPegawai());
+            users.setEmail(users.getEmail());
+            users.setIp(users.getIp());
+            users.setRole(users.getRole());
+            usersRepository.save(users);
+            logger.info("user created");
+            return new MessageResponse("success", HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("failed to create user", e);
+            return new MessageResponse("failed", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
     @Override
     public MessageResponse update(Long id, UserRequest userRequest) {
-        Users users = getById(id);
-        users.setName(userRequest.getName());
-        users.setIp(userRequest.getIpPegawai());
-        users.setRole(userRequest.getRole());
-        users.setPhoneNumber(userRequest.getPhoneNumber());
-        users.setPhoto(userRequest.getPhoto());
-        usersRepository.save(users);
-        return new MessageResponse("success", HttpStatus.OK);
+        try {
+            Users users = getById(id);
+            users.setName(userRequest.getName());
+            users.setIp(userRequest.getIpPegawai());
+            users.setRole(userRequest.getRole());
+            users.setPhoneNumber(userRequest.getPhoneNumber());
+            users.setPhoto(userRequest.getPhoto());
+            usersRepository.save(users);
+            logger.info("user updated");
+            return new MessageResponse("success", HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("failed to update user", e);
+            return new MessageResponse("failed", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Override
     public MessageResponse delete(Long id) {
         if (usersRepository.existsById(id)) {
             usersRepository.deleteById(id);
+            logger.info("user deleted");
             return new MessageResponse("success", HttpStatus.OK);
         } else {
+            logger.error("failed to delete user");
             return new MessageResponse("failed", HttpStatus.NOT_FOUND);
         }
     }
 
     @Override
     public MessageResponse resetPassword(Long id) {
-        Users users = getById(id);
-        users.setPassword(passwordEncoder.encode(users.getIp()));
-        usersRepository.save(users);
-        return new MessageResponse("success", HttpStatus.OK);
+        try {
+            Users users = getById(id);
+            users.setPassword(passwordEncoder.encode(users.getIp()));
+            usersRepository.save(users);
+            logger.info("password reset");
+            return new MessageResponse("success", HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("failed to reset password", e);
+            return new MessageResponse("failed", HttpStatus.BAD_REQUEST);
+        }
+
     }
 }
