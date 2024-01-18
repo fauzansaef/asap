@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.asap.exception.ResourceNotFoundException;
+import project.asap.files.FilesService;
 import project.asap.ruangan.domain.dto.RoomRequest;
 import project.asap.ruangan.domain.entity.Rooms;
 import project.asap.ruangan.infrastructure.RoomsRepository;
@@ -22,10 +23,12 @@ import project.asap.utility.MessageResponse;
 public class RoomsServiceImpl implements RoomsService {
     private static final Logger logger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(RoomsServiceImpl.class);
     private final RoomsRepository roomsRepository;
+    private final FilesService filesService;
 
     @Autowired
-    public RoomsServiceImpl(RoomsRepository roomsRepository) {
+    public RoomsServiceImpl(RoomsRepository roomsRepository, FilesService filesService) {
         this.roomsRepository = roomsRepository;
+        this.filesService = filesService;
     }
 
     @Override
@@ -53,8 +56,9 @@ public class RoomsServiceImpl implements RoomsService {
             rooms.setNamaRuangan(roomRequest.getNamaRuangan());
             rooms.setDeskripsi(roomRequest.getDeskripsi());
             rooms.setPhoto(roomRequest.getPhoto());
-            logger.info("room created");
+            rooms.setReady(1);
             roomsRepository.save(rooms);
+            logger.info("room created");
             return new MessageResponse("room created", HttpStatus.OK);
         } catch (Exception e) {
             logger.error("failed to create room", e);
@@ -65,13 +69,19 @@ public class RoomsServiceImpl implements RoomsService {
     @Override
     public MessageResponse update(Long id, RoomRequest roomRequest) {
         try {
-            Rooms rooms = roomsRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(Rooms.class, "id", id.toString()));
+            Rooms rooms = getById(id);
             rooms.setKode(roomRequest.getKode());
             rooms.setNamaRuangan(roomRequest.getNamaRuangan());
             rooms.setDeskripsi(roomRequest.getDeskripsi());
+
+            if (rooms.getPhoto() != null) {
+                filesService.delete(rooms.getPhoto());
+                logger.info("delete old photo room");
+            }
+
             rooms.setPhoto(roomRequest.getPhoto());
-            logger.info("room updated");
             roomsRepository.save(rooms);
+            logger.info("room updated");
             return new MessageResponse("room updated", HttpStatus.OK);
         } catch (Exception e) {
             logger.error("failed to update room", e);
@@ -83,6 +93,10 @@ public class RoomsServiceImpl implements RoomsService {
     public MessageResponse delete(Long id) {
         if (roomsRepository.existsById(id)) {
             roomsRepository.deleteById(id);
+            if (getById(id).getPhoto() != null) {
+                filesService.delete(getById(id).getPhoto());
+                logger.info("delete photo room");
+            }
             logger.info("room deleted");
             return new MessageResponse("room deleted", HttpStatus.OK);
         } else {

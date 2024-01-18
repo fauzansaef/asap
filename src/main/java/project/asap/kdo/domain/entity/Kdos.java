@@ -1,4 +1,4 @@
-package project.asap.ruangan.domain.entity;
+package project.asap.kdo.domain.entity;
 
 import lombok.Data;
 import org.hibernate.annotations.SQLDelete;
@@ -9,19 +9,21 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "rooms")
-@SQLDelete(sql = "UPDATE rooms SET deleted_at = current_timestamp WHERE id = ?")
+@Table(name = "kdos")
+@SQLDelete(sql = "UPDATE kdos SET deleted_at = current_timestamp WHERE id = ?")
 @Where(clause = "deleted_at is null")
 @Data
-public class Rooms extends AuditEntity {
+public class Kdos extends AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "kode")
-    private String kode;
-    @Column(name = "nama_ruangan")
-    private String namaRuangan;
+    @Column(name = "jenis")
+    private String jenis;
+    @Column(name = "nomor_plat")
+    private String nomorPlat;
+    @Column(name = "tahun")
+    private String tahun;
     @Column(name = "deskripsi")
     private String deskripsi;
     @Column(name = "photo")

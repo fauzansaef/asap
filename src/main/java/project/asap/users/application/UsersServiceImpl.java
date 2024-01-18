@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.asap.exception.ResourceNotFoundException;
+import project.asap.files.FilesService;
 import project.asap.users.domain.dto.UserRequest;
 import project.asap.users.domain.entity.Users;
 import project.asap.users.infrastructure.UsersRepository;
@@ -24,11 +25,13 @@ public class UsersServiceImpl implements UsersService {
     private static final Logger logger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(UsersServiceImpl.class);
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
+    private final FilesService filesService;
 
     @Autowired
-    public UsersServiceImpl(UsersRepository usersRepository, PasswordEncoder passwordEncoder) {
+    public UsersServiceImpl(UsersRepository usersRepository, PasswordEncoder passwordEncoder, FilesService filesService) {
         this.usersRepository = usersRepository;
         this.passwordEncoder = passwordEncoder;
+        this.filesService = filesService;
     }
 
     @Override
@@ -75,6 +78,12 @@ public class UsersServiceImpl implements UsersService {
             users.setIp(userRequest.getIpPegawai());
             users.setRole(userRequest.getRole());
             users.setPhoneNumber(userRequest.getPhoneNumber());
+
+            if (users.getPhoto() != null) {
+                filesService.delete(users.getPhoto());
+                logger.info("delete old photo user");
+            }
+
             users.setPhoto(userRequest.getPhoto());
             usersRepository.save(users);
             logger.info("user updated");
@@ -89,6 +98,13 @@ public class UsersServiceImpl implements UsersService {
     public MessageResponse delete(Long id) {
         if (usersRepository.existsById(id)) {
             usersRepository.deleteById(id);
+
+
+            if (getById(id).getPhoto() != null) {
+                filesService.delete(getById(id).getPhoto());
+                logger.info("delete photo user");
+            }
+
             logger.info("user deleted");
             return new MessageResponse("success", HttpStatus.OK);
         } else {
