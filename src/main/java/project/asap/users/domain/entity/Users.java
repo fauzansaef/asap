@@ -1,5 +1,6 @@
 package project.asap.users.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -44,10 +45,11 @@ public class Users extends AuditEntity {
     private String rememberToken;
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "section_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Sections sections;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "sub_section_id", referencedColumnName = "id", insertable = false, updatable = false)
     private SubSections subSections;
 

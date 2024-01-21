@@ -19,7 +19,7 @@ public class SubSections extends AuditEntity {
     private String kode;
     @Column(name = "sub_section_name")
     private String subSectionName;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "section_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Sections sections;
 

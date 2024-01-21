@@ -27,6 +27,11 @@ public class UsersServiceImpl implements UsersService {
     private final PasswordEncoder passwordEncoder;
     private final FilesService filesService;
 
+
+    /**
+     * role users => 1 = kasubbag, 2 = pelaksana 3 = PIC
+     */
+
     @Autowired
     public UsersServiceImpl(UsersRepository usersRepository, PasswordEncoder passwordEncoder, FilesService filesService) {
         this.usersRepository = usersRepository;
@@ -57,9 +62,9 @@ public class UsersServiceImpl implements UsersService {
         try {
             Users users = new Users();
             users.setName(userRequest.getIpPegawai());
-            users.setEmail(users.getEmail());
-            users.setIp(users.getIp());
-            users.setRole(users.getRole());
+            users.setEmail(userRequest.getEmail());
+            users.setIp(userRequest.getIpPegawai());
+            users.setRole(userRequest.getRole());
             usersRepository.save(users);
             logger.info("user created");
             return new MessageResponse("success", HttpStatus.OK);
@@ -75,7 +80,6 @@ public class UsersServiceImpl implements UsersService {
         try {
             Users users = getById(id);
             users.setName(userRequest.getName());
-            users.setIp(userRequest.getIpPegawai());
             users.setRole(userRequest.getRole());
             users.setPhoneNumber(userRequest.getPhoneNumber());
 
