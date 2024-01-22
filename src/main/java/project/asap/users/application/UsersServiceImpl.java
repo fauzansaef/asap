@@ -15,9 +15,15 @@ import org.springframework.transaction.annotation.Transactional;
 import project.asap.exception.ResourceNotFoundException;
 import project.asap.files.FilesService;
 import project.asap.users.domain.dto.UserRequest;
+import project.asap.users.domain.entity.Sections;
+import project.asap.users.domain.entity.SubSections;
 import project.asap.users.domain.entity.Users;
+import project.asap.users.infrastructure.SectionsRepository;
+import project.asap.users.infrastructure.SubSectionsRepository;
 import project.asap.users.infrastructure.UsersRepository;
 import project.asap.utility.MessageResponse;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -26,6 +32,8 @@ public class UsersServiceImpl implements UsersService {
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
     private final FilesService filesService;
+    private final SectionsRepository sectionsRepository;
+    private final SubSectionsRepository subSectionsRepository;
 
 
     /**
@@ -33,10 +41,12 @@ public class UsersServiceImpl implements UsersService {
      */
 
     @Autowired
-    public UsersServiceImpl(UsersRepository usersRepository, PasswordEncoder passwordEncoder, FilesService filesService) {
+    public UsersServiceImpl(UsersRepository usersRepository, PasswordEncoder passwordEncoder, FilesService filesService, SectionsRepository sectionsRepository, SubSectionsRepository subSectionsRepository) {
         this.usersRepository = usersRepository;
         this.passwordEncoder = passwordEncoder;
         this.filesService = filesService;
+        this.sectionsRepository = sectionsRepository;
+        this.subSectionsRepository = subSectionsRepository;
     }
 
     @Override
@@ -135,5 +145,15 @@ public class UsersServiceImpl implements UsersService {
             return new MessageResponse("failed", HttpStatus.BAD_REQUEST);
         }
 
+    }
+
+    @Override
+    public List<Sections> getSection() {
+        return sectionsRepository.findAll();
+    }
+
+    @Override
+    public List<SubSections> getSubSectionBySectionId(Long id) {
+        return subSectionsRepository.findAllBySectionId(id);
     }
 }

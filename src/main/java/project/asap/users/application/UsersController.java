@@ -54,4 +54,14 @@ public class UsersController {
     ResponseEntity<MessageResponse> resetPassword(@PathVariable Long id) {
         return new ResponseEntity<>(usersService.resetPassword(id), HttpStatus.OK);
     }
+
+    @GetMapping("/section")
+    ResponseEntity<?> getSection() {
+        return new ResponseEntity<>(usersService.getSection(), HttpStatus.OK);
+    }
+
+    @GetMapping("/sub-section/{id}")
+    ResponseEntity<?> getSubSectionBySectionId(@PathVariable Long id) {
+        return new ResponseEntity<>(usersService.getSubSectionBySectionId(id), HttpStatus.OK);
+    }
 }
