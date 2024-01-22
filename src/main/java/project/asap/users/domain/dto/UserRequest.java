@@ -10,4 +10,7 @@ public class UserRequest {
     private Integer role;
     private String phoneNumber;
     private String photo;
+    private Long sectionId;
+    private Long subSectionId;
+
 }

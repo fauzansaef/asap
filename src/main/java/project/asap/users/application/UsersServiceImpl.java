@@ -65,6 +65,9 @@ public class UsersServiceImpl implements UsersService {
             users.setEmail(userRequest.getEmail());
             users.setIp(userRequest.getIpPegawai());
             users.setRole(userRequest.getRole());
+            users.setPassword(passwordEncoder.encode(userRequest.getIpPegawai()));
+            users.setSectionId(userRequest.getSectionId());
+            users.setSubSectionId(userRequest.getSubSectionId());
             usersRepository.save(users);
             logger.info("user created");
             return new MessageResponse("success", HttpStatus.OK);
@@ -82,6 +85,8 @@ public class UsersServiceImpl implements UsersService {
             users.setName(userRequest.getName());
             users.setRole(userRequest.getRole());
             users.setPhoneNumber(userRequest.getPhoneNumber());
+            users.setSectionId(userRequest.getSectionId());
+            users.setSubSectionId(userRequest.getSubSectionId());
 
             if (users.getPhoto() != null) {
                 filesService.delete(users.getPhoto());
