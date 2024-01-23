@@ -3,16 +3,20 @@ package project.asap.atk.repository;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import project.asap.atk.model.Atks;
 
 import javax.persistence.criteria.Predicate;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public interface AtksRepository extends JpaRepository<Atks, Integer>, JpaSpecificationExecutor<Atks> {
 
-    Integer countByCreatedAt(LocalDateTime date);
+    @Query("SELECT count(a) FROM Atks a WHERE CAST(a.createdAt AS LocalDate) = ?1")
+    Integer countByCreatedAt(LocalDate date);
+//    Integer countByCreatedAt(LocalDateTime date);
 
     public static class AtksSpecifications {
 
