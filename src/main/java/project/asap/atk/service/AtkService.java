@@ -13,6 +13,7 @@ import project.asap.atk.repository.AtksRepository;
 import project.asap.utility.CopyEntity;
 import project.asap.utility.MessageResponse;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -30,7 +31,7 @@ public class AtkService {
     private static final Logger logger = (Logger) LoggerFactory.getLogger(AtksController.class);
 
     public String generateCode() {
-        LocalDateTime today = LocalDateTime.now();
+        LocalDate today = LocalDate.now();
         Integer count = atkRepository.countByCreatedAt(today);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         String formattedDate = today.format(formatter);
