@@ -26,4 +26,6 @@ public interface UsersService {
 
     List<SubSections> getSubSectionBySectionId(Long id);
 
+    Long getUserId();
+
 }

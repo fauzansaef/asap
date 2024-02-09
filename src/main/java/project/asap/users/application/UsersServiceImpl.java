@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.asap.exception.ResourceNotFoundException;
 import project.asap.files.FilesService;
+import project.asap.security.domain.UserDetailsImpl;
 import project.asap.users.domain.dto.UserRequest;
 import project.asap.users.domain.entity.Sections;
 import project.asap.users.domain.entity.SubSections;
@@ -155,5 +156,11 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public List<SubSections> getSubSectionBySectionId(Long id) {
         return subSectionsRepository.findAllBySectionId(id);
+    }
+
+    @Override
+    public Long getUserId() {
+        UserDetailsImpl userDetails = (UserDetailsImpl) org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userDetails.getId();
     }
 }
