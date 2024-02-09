@@ -95,7 +95,7 @@ public class AtksController {
         return atkService.listDraftPembelian();
     }
 
-    @PatchMapping("atk/{id}/opname")
+    @PatchMapping("/{id}/opname")
     public MessageResponse opnameAtk(@PathVariable Integer id, @RequestParam Integer jumlah) {
         return atkService.opnameStockAtk(id, jumlah);
     }
