@@ -5,6 +5,7 @@ import project.asap.utility.common.AuditEntity;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "atk_purchases")
@@ -26,4 +27,6 @@ public class AtkPurchases extends AuditEntity {
     private Integer status;
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+    @OneToMany(mappedBy = "atkPurchases")
+    List<AtkPurchaseDetails> atkPurchaseDetails;
 }
