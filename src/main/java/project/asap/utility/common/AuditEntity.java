@@ -29,12 +29,10 @@ public abstract class AuditEntity implements Serializable {
 
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreatedDate
-    @JsonIgnore
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at", nullable = false)
     @LastModifiedDate
-    @JsonIgnore
     private LocalDateTime updatedAt;
 
     // Getters and Setters (Omitted for brevity)
