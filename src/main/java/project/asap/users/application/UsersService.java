@@ -12,6 +12,8 @@ import java.util.List;
 public interface UsersService {
     Page<Users> getAll(int page, int size, String sort, String order, String search);
 
+    List<Users> getListUsers();
+
     Users getById(Long id);
 
     MessageResponse save(UserRequest userRequest);

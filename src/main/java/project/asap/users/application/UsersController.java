@@ -64,4 +64,9 @@ public class UsersController {
     ResponseEntity<?> getSubSectionBySectionId(@PathVariable Long id) {
         return new ResponseEntity<>(usersService.getSubSectionBySectionId(id), HttpStatus.OK);
     }
+
+    @GetMapping("/list")
+    ResponseEntity<?> getListUsers() {
+        return new ResponseEntity<>(usersService.getListUsers(), HttpStatus.OK);
+    }
 }

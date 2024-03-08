@@ -64,6 +64,11 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
+    public List<Users> getListUsers() {
+        return usersRepository.findAll();
+    }
+
+    @Override
     public Users getById(Long id) {
         return usersRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(Users.class, "id", id.toString()));
     }
