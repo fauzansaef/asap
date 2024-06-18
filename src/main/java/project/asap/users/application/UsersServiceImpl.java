@@ -81,6 +81,8 @@ public class UsersServiceImpl implements UsersService {
             users.setEmail(userRequest.getEmail());
             users.setIp(userRequest.getIpPegawai());
             users.setRole(userRequest.getRole());
+            users.setUnitKerja(userRequest.getUnitKerja());
+            users.setJabatan(userRequest.getJabatan());
             users.setPassword(passwordEncoder.encode(userRequest.getIpPegawai()));
             users.setSectionId(userRequest.getSectionId());
             users.setSubSectionId(userRequest.getSubSectionId());

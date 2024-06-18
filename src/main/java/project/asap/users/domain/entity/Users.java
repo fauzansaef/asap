@@ -43,6 +43,10 @@ public class Users extends AuditEntity {
     private String photo;
     @Column(name = "remember_token")
     private String rememberToken;
+    @Column(name = "unit_kerja")
+    private String unitKerja;
+    @Column(name = "jabatan")
+    private String jabatan;
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
     @JsonIgnore
