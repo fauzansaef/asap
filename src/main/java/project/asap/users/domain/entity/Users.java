@@ -1,6 +1,8 @@
 package project.asap.users.domain.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import project.asap.utility.common.AuditEntity;
 
 import javax.persistence.*;
@@ -8,6 +10,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
+@SQLDelete(sql = "UPDATE users SET deleted_at = current_timestamp WHERE id = ?")
+@Where(clause = "deleted_at is null")
 @Data
 public class Users extends AuditEntity {
     @Id
