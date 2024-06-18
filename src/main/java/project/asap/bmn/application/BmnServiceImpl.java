@@ -60,6 +60,9 @@ public class BmnServiceImpl implements BmnService {
             bmns.setDeskripsi(bmnRequest.getDeskripsi());
             bmns.setPhoto(bmnRequest.getPhoto());
             bmns.setStock(bmnRequest.getStock());
+            bmns.setStatus(bmnRequest.getStatus());
+            bmns.setNamaPenanggungJawab(bmnRequest.getNamaPenanggungJawab());
+            bmns.setTahunPengadaan(bmnRequest.getTahunPengadaan());
             bmnsRepository.save(bmns);
             logger.info("bmn created");
             return new MessageResponse("bmn created", HttpStatus.OK);
@@ -77,6 +80,9 @@ public class BmnServiceImpl implements BmnService {
             bmns.setTahun(bmnRequest.getTahun());
             bmns.setDeskripsi(bmnRequest.getDeskripsi());
             bmns.setStock(bmnRequest.getStock());
+            bmns.setStatus(bmnRequest.getStatus());
+            bmns.setNamaPenanggungJawab(bmnRequest.getNamaPenanggungJawab());
+            bmns.setTahunPengadaan(bmnRequest.getTahunPengadaan());
 
             if(bmns.getPhoto() != null){
                 filesService.delete(bmns.getPhoto());
