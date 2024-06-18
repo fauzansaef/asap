@@ -1,4 +1,4 @@
-package project.asap.ref.application;
+package project.asap.ref.application.reftipearsip;
 
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -7,9 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import project.asap.kdo.application.KdoService;
-import project.asap.kdo.domain.dto.KdoRequest;
-import project.asap.kdo.domain.entity.Kdos;
 import project.asap.ref.domain.dto.RefTipeArsipRequest;
 import project.asap.ref.domain.entity.RefTipeArsip;
 import project.asap.utility.MessageResponse;
