@@ -28,6 +28,12 @@ public class Bmns extends AuditEntity {
     private String tahun;
     @Column(name = "photo")
     private String photo;
+    @Column(name = "status")
+    private String status;
+    @Column(name = "nama_penanggung_jawab")
+    private String namaPenanggungJawab;
+    @Column(name = "tahun_pengadaan")
+    private String tahunPengadaan;
     @Column(name = "stock")
     private Integer stock;
     @Column(name = "deleted_at")

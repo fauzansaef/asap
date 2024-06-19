@@ -212,6 +212,14 @@ public class AtkService {
             atkPurchases.setTotal(String.valueOf(total));
             atkPurchases.setStatus(3); // 1=draft , 2=cancel, 3=purchase
             atkPurchasesRepository.save(atkPurchases);
+
+            //update new stock for atk
+            for (AtkPurchaseDetails atkPurchaseDetail : atkPurchaseDetails) {
+                Atks atk = atkRepository.findById(atkPurchaseDetail.getAtkId()).get();
+                atk.setStock(atk.getStock() + Integer.parseInt(atkPurchaseDetail.getJumlah()));
+                atkRepository.save(atk);
+            }
+
             logger.info("selesai pembelian atk");
             return new MessageResponse("pembelian atk berhasil diselesaikan", HttpStatus.OK);
         } catch (Exception e) {
