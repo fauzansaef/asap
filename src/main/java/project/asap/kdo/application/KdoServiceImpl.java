@@ -14,12 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 import project.asap.exception.ResourceNotFoundException;
 import project.asap.files.FilesService;
 import project.asap.kdo.domain.dto.KdoRequest;
+import project.asap.kdo.domain.dto.ReqKdoRequest;
 import project.asap.kdo.domain.entity.Kdos;
 import project.asap.kdo.infrastructure.KdosRepository;
 import project.asap.utility.MessageResponse;
+import project.asap.utility.common.Reqs;
 
 @Service
-@Transactional
 public class KdoServiceImpl implements KdoService {
     private static final Logger logger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(KdoServiceImpl.class);
     private final KdosRepository kdoRepository;
@@ -106,5 +107,12 @@ public class KdoServiceImpl implements KdoService {
             logger.error("kdo not found");
             return new MessageResponse("kdo not found", HttpStatus.NOT_FOUND);
         }
+    }
+
+    @Override
+    @Transactional
+    public MessageResponse requestKdo(ReqKdoRequest reqKdoRequest) {
+        Reqs reqs = new Reqs();
+        return null;
     }
 }

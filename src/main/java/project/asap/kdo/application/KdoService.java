@@ -2,6 +2,7 @@ package project.asap.kdo.application;
 
 import org.springframework.data.domain.Page;
 import project.asap.kdo.domain.dto.KdoRequest;
+import project.asap.kdo.domain.dto.ReqKdoRequest;
 import project.asap.kdo.domain.entity.Kdos;
 import project.asap.utility.MessageResponse;
 
@@ -15,4 +16,6 @@ public interface KdoService {
     MessageResponse update(Long id, KdoRequest kdoRequest);
 
     MessageResponse delete(Long id);
+
+    MessageResponse requestKdo(ReqKdoRequest reqKdoRequest);
 }
