@@ -1,7 +1,8 @@
-package project.asap.gudang.domain.entity;
+package project.asap.rak.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import project.asap.box.domain.entity.Box;
 import project.asap.lemari.domain.entity.Lemari;
 import project.asap.utility.common.AuditEntity;
 
@@ -9,9 +10,9 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "gudang")
+@Table(name = "rak")
 @Data
-public class Gudang extends AuditEntity {
+public class Rak extends AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -20,7 +21,13 @@ public class Gudang extends AuditEntity {
     private String nama;
     @Column(name = "code")
     private String code;
+    @Column(name = "id_lemari")
+    private Long idLemari;
+    @ManyToOne
+    @JoinColumn(name = "id_lemari", insertable = false, updatable = false)
+    private Lemari lemari;
     @JsonIgnore
-    @OneToMany(mappedBy = "gudang", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Lemari> lemariList;
+    @OneToMany(mappedBy = "rak", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Box> boxList;
+
 }

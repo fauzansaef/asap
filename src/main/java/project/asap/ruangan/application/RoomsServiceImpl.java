@@ -100,8 +100,8 @@ public class RoomsServiceImpl implements RoomsService {
             logger.info("room deleted");
             return new MessageResponse("room deleted", HttpStatus.OK);
         } else {
-            logger.error("failed to delete room");
-            return new MessageResponse("failed to delete room", HttpStatus.INTERNAL_SERVER_ERROR);
+            logger.error("room not found");
+            return new MessageResponse("room not found", HttpStatus.NOT_FOUND);
         }
     }
 }

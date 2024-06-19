@@ -133,8 +133,8 @@ public class UsersServiceImpl implements UsersService {
             logger.info("user deleted");
             return new MessageResponse("success", HttpStatus.OK);
         } else {
-            logger.error("failed to delete user");
-            return new MessageResponse("failed", HttpStatus.NOT_FOUND);
+            logger.error("user not found");
+            return new MessageResponse("user not found", HttpStatus.NOT_FOUND);
         }
     }
 

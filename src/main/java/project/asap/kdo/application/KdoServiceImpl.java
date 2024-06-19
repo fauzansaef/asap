@@ -103,8 +103,8 @@ public class KdoServiceImpl implements KdoService {
             logger.info("kdo deleted");
             return new MessageResponse("kdo deleted", HttpStatus.OK);
         } else {
-            logger.error("failed to delete kdo");
-            return new MessageResponse("failed to delete kdo", HttpStatus.INTERNAL_SERVER_ERROR);
+            logger.error("kdo not found");
+            return new MessageResponse("kdo not found", HttpStatus.NOT_FOUND);
         }
     }
 }
