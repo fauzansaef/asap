@@ -30,6 +30,12 @@ public class CommonUtils {
         String bulan = String.valueOf(LocalDate.now().getMonthValue());
         String tanggal = String.valueOf(LocalDate.now().getDayOfMonth());
         String sequence = "001";
+
+        //kekmana cara buat sequence nya?
+        //buat table baru di database untuk menampung sequence dari masing2 jenis request
+        //gunakan : int number = 7;
+        //String numberWithZeroPrefix = String.format("%03d", number);
+        //System.out.println(numberWithZeroPrefix);  // Output: 007
         return tahun2Digit + bulan + tanggal + jenisRequest + sequence;
     }
 }
