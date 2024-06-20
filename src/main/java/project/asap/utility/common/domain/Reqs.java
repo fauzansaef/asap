@@ -1,10 +1,12 @@
-package project.asap.utility.common;
+package project.asap.utility.common.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import project.asap.users.domain.entity.Users;
+import project.asap.utility.common.AuditEntity;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -42,8 +44,8 @@ public class Reqs extends AuditEntity {
     private String progresNote;
     @Column(name = "completed_note")
     private String completedNote;
-    @Column(name = "start")
-    private Integer start;
+    @Column(name = "star")
+    private Integer star;
     @Column(name = "comment")
     private String comment;
     @Column(name = "comment_at")

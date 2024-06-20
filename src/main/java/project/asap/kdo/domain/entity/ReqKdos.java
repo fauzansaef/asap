@@ -5,7 +5,7 @@ import lombok.Data;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import project.asap.utility.common.AuditEntity;
-import project.asap.utility.common.Reqs;
+import project.asap.utility.common.domain.Reqs;
 
 import javax.persistence.*;
 import java.time.LocalDate;

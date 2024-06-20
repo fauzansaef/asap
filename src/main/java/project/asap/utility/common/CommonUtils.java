@@ -1,18 +1,28 @@
 package project.asap.utility.common;
 
+import ch.qos.logback.classic.Logger;
 import org.apache.tika.Tika;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import project.asap.security.domain.UserDetailsImpl;
-import project.asap.users.domain.entity.Users;
+import project.asap.utility.common.domain.NoReqs;
+import project.asap.utility.common.infrastructure.NoReqsRepository;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+@Service
 public class CommonUtils {
+    private static final Logger logger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(CommonUtils.class);
+
     public static final List<String> contentTypes = Arrays.asList("application/pdf", "image/jpg", "image/jpeg", "image/png");
+    @Autowired
+    private static NoReqsRepository noReqsRepository;
 
     public static String cekFile(MultipartFile file) throws IOException {
         Tika tika = new Tika();
@@ -24,18 +34,31 @@ public class CommonUtils {
         return userDetails.getIp();
     }
 
+    public static Long getIdUser() {
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userDetails.getId();
+    }
+
     public static String noRequest(String jenisRequest) {
         /** 2 digit tahun + bulan + tanggal + jenis request (lihat di kolom type) + sequence 3 digit **/
         String tahun2Digit = String.valueOf(LocalDate.now().getYear()).substring(2);
         String bulan = String.valueOf(LocalDate.now().getMonthValue());
         String tanggal = String.valueOf(LocalDate.now().getDayOfMonth());
-        String sequence = "001";
+        Integer sequence;
+        String tahunBulanTanggal = tahun2Digit + bulan + tanggal;
+        if (noReqsRepository.findFirstByTanggalAndTypeOrderByIdDesc(tahunBulanTanggal, Integer.parseInt(jenisRequest)).isPresent()) {
+            sequence = noReqsRepository.findFirstByTanggalAndTypeOrderByIdDesc(tahunBulanTanggal, Integer.parseInt(jenisRequest)).get().getNoUrut();
+            sequence++;
+        } else {
+            sequence = 1;
+        }
 
-        //kekmana cara buat sequence nya?
-        //buat table baru di database untuk menampung sequence dari masing2 jenis request
-        //gunakan : int number = 7;
-        //String numberWithZeroPrefix = String.format("%03d", number);
-        //System.out.println(numberWithZeroPrefix);  // Output: 007
-        return tahun2Digit + bulan + tanggal + jenisRequest + sequence;
+        NoReqs noReqs = new NoReqs();
+        noReqs.setTanggal(tahunBulanTanggal);
+        noReqs.setType(Integer.parseInt(jenisRequest));
+        noReqs.setNoUrut(sequence);
+        noReqsRepository.save(noReqs);
+        logger.info("No Request : " + tahun2Digit + bulan + tanggal + jenisRequest + String.format("%03d", sequence));
+        return tahun2Digit + bulan + tanggal + jenisRequest + String.format("%03d", sequence);
     }
 }
