@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.asap.kdo.domain.dto.KdoRequest;
+import project.asap.kdo.domain.dto.ReqKdoRequest;
 import project.asap.kdo.domain.entity.Kdos;
 import project.asap.utility.MessageResponse;
 
@@ -48,5 +49,10 @@ public class KdoController {
     @DeleteMapping("/{id}")
     ResponseEntity<MessageResponse> delete(@PathVariable Long id) {
         return new ResponseEntity<>(kdoService.delete(id), HttpStatus.OK);
+    }
+
+    @PostMapping("/request")
+    ResponseEntity<MessageResponse> requestKdo(@RequestBody ReqKdoRequest reqKdoRequest) {
+        return new ResponseEntity<>(kdoService.requestKdo(reqKdoRequest), HttpStatus.OK);
     }
 }
