@@ -1,5 +1,4 @@
 - user bisa membatalkan request peminjaman sebelum di approve
-- user bisa mengajukan pembatalan apabila sudah di approve dan
-yang membatalkan adalah PIC
+- user bisa mengajukan pembatalan apabila sudah di approve dan yang membatalkan adalah PIC
 - semua tanggal peminjaman ditampilkan pada detail peminjaman
-- approval lansung pada pic , step menu admin di skip
+- approval lansung pada PIC , step menu admin di skip

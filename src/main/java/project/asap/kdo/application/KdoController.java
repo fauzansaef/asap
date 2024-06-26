@@ -11,6 +11,8 @@ import project.asap.kdo.domain.dto.ReqKdoRequest;
 import project.asap.kdo.domain.entity.Kdos;
 import project.asap.utility.MessageResponse;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/kdos")
 @Tag(name = "KDO (Kendaraan Dinas Operasional)", description = "API Transaction Kendaraan Dinas Operasional")
@@ -37,7 +39,7 @@ public class KdoController {
     }
 
     @PostMapping("")
-    ResponseEntity<MessageResponse> save(@RequestBody KdoRequest kdoRequest) {
+    ResponseEntity<MessageResponse> save(@RequestBody @Valid KdoRequest kdoRequest) {
         return new ResponseEntity<>(kdoService.save(kdoRequest), HttpStatus.OK);
     }
 
@@ -52,7 +54,7 @@ public class KdoController {
     }
 
     @PostMapping("/request")
-    ResponseEntity<MessageResponse> requestKdo(@RequestBody ReqKdoRequest reqKdoRequest) {
+    ResponseEntity<MessageResponse> requestKdo(@RequestBody @Valid ReqKdoRequest reqKdoRequest) {
         return new ResponseEntity<>(kdoService.requestKdo(reqKdoRequest), HttpStatus.OK);
     }
 }
