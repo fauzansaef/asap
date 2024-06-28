@@ -57,7 +57,7 @@ public class ArsipController {
         try {
             InputStream inputStream = file.getInputStream();
             arsipService.saveFromExcel(inputStream);
-            return ResponseEntity.ok().body("File uploaded successfully");
+            return ResponseEntity.ok().body("Arsip uploaded & created successfully");
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload file");
         }
