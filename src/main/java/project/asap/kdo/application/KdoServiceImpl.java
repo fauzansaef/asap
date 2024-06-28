@@ -14,20 +14,33 @@ import org.springframework.transaction.annotation.Transactional;
 import project.asap.exception.ResourceNotFoundException;
 import project.asap.files.FilesService;
 import project.asap.kdo.domain.dto.KdoRequest;
+import project.asap.kdo.domain.dto.ReqKdoRequest;
 import project.asap.kdo.domain.entity.Kdos;
+import project.asap.kdo.domain.entity.ReqKdoDetails;
+import project.asap.kdo.domain.entity.ReqKdos;
 import project.asap.kdo.infrastructure.KdosRepository;
+import project.asap.kdo.infrastructure.ReqKdoDetailsRepository;
+import project.asap.kdo.infrastructure.ReqKdosRepository;
 import project.asap.utility.MessageResponse;
+import project.asap.utility.common.CommonUtils;
+import project.asap.utility.common.domain.Reqs;
+import project.asap.utility.common.infrastructure.ReqsRepository;
 
 @Service
-@Transactional
 public class KdoServiceImpl implements KdoService {
     private static final Logger logger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(KdoServiceImpl.class);
     private final KdosRepository kdoRepository;
+    private final ReqsRepository reqsRepository;
+    private final ReqKdosRepository reqKdosRepository;
+    private final ReqKdoDetailsRepository reqKdoDetailsRepository;
     private final FilesService filesService;
 
     @Autowired
-    public KdoServiceImpl(KdosRepository kdoRepository, FilesService filesService) {
+    public KdoServiceImpl(KdosRepository kdoRepository, ReqsRepository reqsRepository, ReqKdosRepository reqKdosRepository, ReqKdoDetailsRepository reqKdoDetailsRepository, FilesService filesService) {
         this.kdoRepository = kdoRepository;
+        this.reqsRepository = reqsRepository;
+        this.reqKdosRepository = reqKdosRepository;
+        this.reqKdoDetailsRepository = reqKdoDetailsRepository;
         this.filesService = filesService;
     }
 
@@ -106,5 +119,39 @@ public class KdoServiceImpl implements KdoService {
             logger.error("kdo not found");
             return new MessageResponse("kdo not found", HttpStatus.NOT_FOUND);
         }
+    }
+
+    @Override
+    @Transactional
+    public MessageResponse requestKdo(ReqKdoRequest reqKdoRequest) {
+        Reqs reqs = new Reqs();
+        reqs.setNoRequest(CommonUtils.noRequest(String.valueOf(2)));//2 = jenis request kdo
+        reqs.setUserId(CommonUtils.getIdUser());
+        reqs.setType(2);
+        reqs.setStatusReq(0);//draft
+        reqs.setRequestNote(reqKdoRequest.getRequestNote());
+        reqsRepository.save(reqs);
+        logger.info("Reqs kdo created");
+
+        ReqKdos reqKdos = new ReqKdos();
+        reqKdos.setReqId(reqs.getId());
+        reqKdos.setNotaDinas(reqKdoRequest.getNotaDinas());
+        reqKdos.setTujuan(reqKdoRequest.getTujuan());
+        reqKdos.setTglPinjam(reqKdoRequest.getTglPinjam());
+        reqKdos.setTglKembali(reqKdoRequest.getTglKembali());
+        reqKdos.setPemakai(reqKdoRequest.getPemakai());
+        reqKdos.setNamaPeminjam(reqKdoRequest.getNamaPeminjam());
+        reqKdosRepository.save(reqKdos);
+        logger.info("ReqKdos kdo created");
+
+        ReqKdoDetails reqKdoDetails = new ReqKdoDetails();
+        reqKdoDetails.setReqKdoId(reqKdos.getId());
+        reqKdoDetails.setKdoId(reqKdoRequest.getIdKdo());
+        reqKdoDetailsRepository.save(reqKdoDetails);
+        logger.info("ReqKdoDetails kdo created");
+
+        logger.info("request kdo created");
+        return new MessageResponse("request kdo created", HttpStatus.OK);
+
     }
 }
