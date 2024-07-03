@@ -5,6 +5,8 @@ import project.asap.arsip.domain.dto.TambahArsipRequest;
 import project.asap.arsip.domain.entity.Arsip;
 import project.asap.utility.MessageResponse;
 
+import java.io.InputStream;
+
 public interface ArsipService {
     Page<Arsip> getAll(int page, int size, String sort, String order, String search);
 
@@ -15,4 +17,6 @@ public interface ArsipService {
     MessageResponse update(Long id, TambahArsipRequest request);
 
     MessageResponse delete(Long id);
+
+    MessageResponse saveFromExcel(InputStream inputStream);
 }
