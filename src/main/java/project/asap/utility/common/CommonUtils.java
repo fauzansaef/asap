@@ -2,6 +2,12 @@ package project.asap.utility.common;
 
 import ch.qos.logback.classic.Logger;
 import org.apache.tika.Tika;
+import org.apache.tika.config.TikaConfig;
+import org.apache.tika.detect.Detector;
+import org.apache.tika.io.TikaInputStream;
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.metadata.TikaCoreProperties;
+import org.apache.tika.mime.MediaType;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,14 +26,18 @@ import java.util.List;
 public class CommonUtils {
     private static final Logger logger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(CommonUtils.class);
 
-    public static final List<String> contentTypes = Arrays.asList("application/pdf", "image/jpg", "image/jpeg", "image/png");
+    public static final List<String> contentTypes = Arrays.asList("application/pdf", "image/jpg", "image/jpeg", "image/png","application/vnd.ms-excel","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
     @Autowired
     private static NoReqsRepository noReqsRepository;
 
     public static String cekFile(MultipartFile file) throws IOException {
-        Tika tika = new Tika();
-        return tika.detect(file.getBytes());
+        Detector detector = TikaConfig.getDefaultConfig().getDetector();
+        Metadata metadata = new Metadata();
+        metadata.add(TikaCoreProperties.RESOURCE_NAME_KEY, file.getOriginalFilename());
+        MediaType mediaType = detector.detect(TikaInputStream.get(file.getInputStream()), metadata);
+        return mediaType.toString();
     }
+
 
     public static String getNipPegawai() {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

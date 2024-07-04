@@ -13,6 +13,7 @@ import project.asap.exception.FileUploadExceptionAdvice;
 import project.asap.utility.MessageResponse;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/v1/files")
@@ -50,7 +51,7 @@ public class FilesController {
     }
 
     @PostMapping("")
-    public ResponseEntity<String> uploadFile(@RequestPart("file") MultipartFile file) {
+    public ResponseEntity<String> uploadFile(@RequestPart("file") MultipartFile file) throws IOException {
         String fileName = filesService.save(file);
         return ResponseEntity.status(HttpStatus.OK).body(fileName);
     }

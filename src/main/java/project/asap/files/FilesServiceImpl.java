@@ -13,6 +13,7 @@ import project.asap.exception.FileUploadExceptionAdvice;
 import project.asap.utility.common.CommonUtils;
 
 import javax.annotation.PostConstruct;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -42,8 +43,8 @@ public class FilesServiceImpl implements FilesService {
     }
 
     @Override
-    public String save(MultipartFile file) {
-        try {
+    public String save(MultipartFile file) throws IOException {
+
             if (!CommonUtils.contentTypes.contains(CommonUtils.cekFile(file))) {
                 logger.info("file not allowed !");
                 throw new CustomValidationException(HttpStatus.NOT_ACCEPTABLE, "file not allowed !");
@@ -65,10 +66,7 @@ public class FilesServiceImpl implements FilesService {
             logger.info("file uploaded : " + fileName);
             return fileName;
 
-        } catch (Exception e) {
-            logger.error("file upload failed");
-            throw new FileUploadExceptionAdvice(e);
-        }
+
 
     }
 
