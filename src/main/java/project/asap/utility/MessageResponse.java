@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class MessageResponse {
 
     private HttpStatus status;
-    private String message;
+    private Object message;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime timestamp;
 
@@ -27,7 +27,7 @@ public class MessageResponse {
 
     }
 
-    public MessageResponse(String message, HttpStatus status) {
+    public MessageResponse(Object message, HttpStatus status) {
         this.status = status;
         this.timestamp = LocalDateTime.now();
         this.message = message;

@@ -14,6 +14,7 @@ import project.asap.utility.MessageResponse;
 import project.asap.utility.common.CommonUtils;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @Transactional
@@ -38,5 +39,10 @@ public class FileRefServiceImpl implements FileRefService {
         fileRefRepository.save(fileRef);
         logger.info("file ref uploaded");
         return new MessageResponse("file ref berhasil diupload, menunggu proses load data", HttpStatus.OK);
+    }
+
+    @Override
+    public List<FileRef> listStatusFileRef() {
+        return fileRefRepository.findAll();
     }
 }

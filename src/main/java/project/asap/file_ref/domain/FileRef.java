@@ -1,5 +1,6 @@
 package project.asap.file_ref.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -20,6 +21,7 @@ public class FileRef extends AuditEntity {
     private Long id;
     @Column(name = "file_name")
     private String fileName;
+    @JsonIgnore
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
     @Column(name = "flag_loader")
