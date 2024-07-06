@@ -28,6 +28,8 @@ public class Atks extends AuditEntity {
     private String harga;
     @Column(name = "kode_lokasi")
     private String kodeLokasi;
+    @Column(name = "tahun")
+    private String tahun;
     @JsonIgnore
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
