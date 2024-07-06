@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import project.asap.file_ref.domain.FailedJobsExcel;
 import project.asap.file_ref.domain.FileRef;
+import project.asap.file_ref.infrsatructure.FailedJobsExcelRepository;
 import project.asap.file_ref.infrsatructure.FileRefRepository;
 import project.asap.files.FilesService;
 import project.asap.utility.MessageResponse;
@@ -21,11 +23,13 @@ import java.util.List;
 public class FileRefServiceImpl implements FileRefService {
     private static final Logger logger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(FileRefServiceImpl.class);
     private final FileRefRepository fileRefRepository;
+    private final FailedJobsExcelRepository failedJobsExcelRepository;
     private final FilesService filesService;
 
     @Autowired
-    public FileRefServiceImpl(FileRefRepository fileRefRepository, FilesService filesService) {
+    public FileRefServiceImpl(FileRefRepository fileRefRepository, FailedJobsExcelRepository failedJobsExcelRepository, FilesService filesService) {
         this.fileRefRepository = fileRefRepository;
+        this.failedJobsExcelRepository = failedJobsExcelRepository;
         this.filesService = filesService;
     }
 
@@ -42,7 +46,12 @@ public class FileRefServiceImpl implements FileRefService {
     }
 
     @Override
-    public List<FileRef> listStatusFileRef() {
+    public List<FileRef> listFileRef() {
         return fileRefRepository.findAll();
+    }
+
+    @Override
+    public List<FailedJobsExcel> listFailedJobsExcel(Long idFileRef) {
+        return failedJobsExcelRepository.findAllByIdFileRef(idFileRef);
     }
 }

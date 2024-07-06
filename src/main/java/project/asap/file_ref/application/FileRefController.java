@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api/v1/upload")
+@RequestMapping("/api/v1/file_refs")
 @Tag(name = "Upload", description = "API Upload file")
 public class FileRefController {
     private final FileRefService fileRefService;
@@ -24,8 +24,13 @@ public class FileRefController {
         return ResponseEntity.ok().body(fileRefService.uploadExcel(file));
     }
 
-    @GetMapping("/file_refs")
-    ResponseEntity<?> listStatusFileRef() {
-        return ResponseEntity.ok().body(fileRefService.listStatusFileRef());
+    @GetMapping("/")
+    ResponseEntity<?> listFileRef() {
+        return ResponseEntity.ok().body(fileRefService.listFileRef());
+    }
+
+    @GetMapping("/job/log_error/{id_file_ref}")
+    ResponseEntity<?> listFailedJobsExcel(@PathVariable(value = "id_file_ref") Long idFileRef) {
+        return ResponseEntity.ok().body(fileRefService.listFailedJobsExcel(idFileRef));
     }
 }
