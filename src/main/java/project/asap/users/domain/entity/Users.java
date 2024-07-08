@@ -29,24 +29,29 @@ public class Users extends AuditEntity {
     private String ip;
     @Column(name = "email")
     private String email;
+    @JsonIgnore
     @Column(name = "email_verified_at")
     private LocalDateTime emailVerifiedAt;
+    @JsonIgnore
     @Column(name = "password")
     private String password;
     @Column(name = "phone_number")
     private String phoneNumber;
     @Column(name = "role")
     private Integer role;
+    @JsonIgnore
     @Column(name = "device_token")
     private String deviceToken;
     @Column(name = "photo")
     private String photo;
+    @JsonIgnore
     @Column(name = "remember_token")
     private String rememberToken;
     @Column(name = "unit_kerja")
     private String unitKerja;
     @Column(name = "jabatan")
     private String jabatan;
+    @JsonIgnore
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
     @JsonIgnore

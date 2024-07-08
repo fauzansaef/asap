@@ -41,19 +41,19 @@ public class PenyimpananMapping extends AuditEntity {
     @JoinColumn(name = "id_arsip", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne
     Arsip arsip;
-    @JsonIgnore
+
     @JoinColumn(name = "id_gudang", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne
     private Gudang gudang;
-    @JsonIgnore
+
     @JoinColumn(name = "id_lemari", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne
     private Lemari lemari;
-    @JsonIgnore
+
     @JoinColumn(name = "id_rak", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne
     private Rak rak;
-    @JsonIgnore
+
     @JoinColumn(name = "id_box", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne
     private Box box;

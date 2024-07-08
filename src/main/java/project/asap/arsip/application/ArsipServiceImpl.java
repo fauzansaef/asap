@@ -15,6 +15,8 @@ import project.asap.arsip.domain.dto.TambahArsipRequest;
 import project.asap.arsip.domain.entity.Arsip;
 import project.asap.arsip.infrastructure.ArsipRepository;
 import project.asap.exception.ResourceNotFoundException;
+import project.asap.penyimpanan.domain.entity.PenyimpananMapping;
+import project.asap.penyimpanan.infrastructure.PenyimpananMappingRepository;
 import project.asap.utility.MessageResponse;
 import project.asap.utility.common.CommonUtils;
 import org.apache.poi.ss.usermodel.*;
@@ -29,10 +31,12 @@ import java.util.Iterator;
 public class ArsipServiceImpl implements ArsipService {
     private static final Logger logger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(ArsipServiceImpl.class);
     private final ArsipRepository arsipRepository;
+    private final PenyimpananMappingRepository penyimpananMappingRepository;
 
     @Autowired
-    public ArsipServiceImpl(ArsipRepository arsipRepository) {
+    public ArsipServiceImpl(ArsipRepository arsipRepository, PenyimpananMappingRepository penyimpananMappingRepository) {
         this.arsipRepository = arsipRepository;
+        this.penyimpananMappingRepository = penyimpananMappingRepository;
     }
 
     @Override
@@ -140,6 +144,12 @@ public class ArsipServiceImpl implements ArsipService {
         } catch (IOException e) {
             throw new RuntimeException("Failed to parse Excel file", e);
         }
+    }
+
+    @Override
+    public PenyimpananMapping getPenyimpananMapping(Long idArsip) {
+        return penyimpananMappingRepository.findByIdArsip(idArsip)
+                .orElseThrow(() -> new ResourceNotFoundException(PenyimpananMapping.class, "idArsip", idArsip.toString()));
     }
 
     private String getCellValueAsString(Cell cell) {

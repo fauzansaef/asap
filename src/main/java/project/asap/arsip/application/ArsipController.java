@@ -37,6 +37,11 @@ public class ArsipController {
         return ResponseEntity.ok(arsipService.getById(id));
     }
 
+    @GetMapping("/penyimpanan/{id}")
+    ResponseEntity<?> getPenyimpananMapping(@RequestParam Long id) {
+        return ResponseEntity.ok(arsipService.getPenyimpananMapping(id));
+    }
+
     @PostMapping("")
     ResponseEntity<?> save(@RequestBody TambahArsipRequest request) {
         return ResponseEntity.ok(arsipService.save(request));
@@ -52,7 +57,7 @@ public class ArsipController {
         return ResponseEntity.ok(arsipService.delete(id));
     }
 
-    @PostMapping(value ="/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
             InputStream inputStream = file.getInputStream();

@@ -45,6 +45,7 @@ public class LemariServiceImpl implements LemariService{
         lemari.setNama(lemariRequest.getNama());
         lemari.setCode(lemariRequest.getCode());
         lemari.setIdGudang(lemariRequest.getIdGudang());
+        lemari.setPic(lemariRequest.getIdUser());
         lemariRepository.save(lemari);
         logger.info("lemari created");
         return new MessageResponse("lemari created", HttpStatus.OK);
@@ -56,6 +57,7 @@ public class LemariServiceImpl implements LemariService{
         lemari.setNama(lemariRequest.getNama());
         lemari.setCode(lemariRequest.getCode());
         lemari.setIdGudang(lemariRequest.getIdGudang());
+        lemari.setPic(lemariRequest.getIdUser());
         lemariRepository.save(lemari);
         logger.info("lemari updated");
         return new MessageResponse("lemari updated", HttpStatus.OK);

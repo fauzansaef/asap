@@ -26,10 +26,10 @@ public class Lemari extends AuditEntity {
     private Long idGudang;
     @Column(name = "pic")
     private Long pic;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_gudang", insertable = false, updatable = false)
     private Gudang gudang;
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "pic", insertable = false, updatable = false)
     private Users user;

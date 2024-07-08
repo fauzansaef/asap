@@ -8,3 +8,6 @@
  - upload referensi atk,bmn,arsip
  - transaksi peminjaman arsip sampai pengembaliannya
  - role 1: admin, 2: user, 3: pic (tambah kolom PIC pada table lemari)
+ - tambahkan count row yg berhasil di load dan gagal
+ - tambahkan status di flag load jika error
+ - tambahkan status 0 pada arsip jika pertama kali di upload excel

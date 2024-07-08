@@ -23,6 +23,7 @@ public class Rak extends AuditEntity {
     private String code;
     @Column(name = "id_lemari")
     private Long idLemari;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_lemari", insertable = false, updatable = false)
     private Lemari lemari;

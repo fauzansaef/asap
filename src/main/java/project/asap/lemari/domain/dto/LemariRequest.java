@@ -15,4 +15,5 @@ public class LemariRequest {
     private String code;
     @NotNull
     private Long idGudang;
+    private Long idUser;
 }
