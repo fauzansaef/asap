@@ -43,7 +43,6 @@ public class ArsipServiceImpl implements ArsipService {
                 criteriaBuilder.isTrue(criteriaBuilder.literal(search.equals(""))),
                 criteriaBuilder.like(criteriaBuilder.lower(root.get("kode")), "%" + search.toLowerCase() + "%"),
                 criteriaBuilder.like(criteriaBuilder.lower(root.get("nama")), "%" + search.toLowerCase() + "%"),
-                criteriaBuilder.like(criteriaBuilder.lower(root.get("noDokumen")), "%" + search.toLowerCase() + "%"),
                 criteriaBuilder.like(criteriaBuilder.lower(root.get("tahun")), "%" + search.toLowerCase() + "%")
         );
         return arsipRepository.findAll(specification, pageable);
