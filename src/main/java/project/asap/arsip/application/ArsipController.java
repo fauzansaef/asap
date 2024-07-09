@@ -57,14 +57,14 @@ public class ArsipController {
         return ResponseEntity.ok(arsipService.delete(id));
     }
 
-    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
-        try {
-            InputStream inputStream = file.getInputStream();
-            arsipService.saveFromExcel(inputStream);
-            return ResponseEntity.ok().body("Arsip uploaded & created successfully");
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload file");
-        }
-    }
+//    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
+//        try {
+//            InputStream inputStream = file.getInputStream();
+//            arsipService.saveFromExcel(inputStream);
+//            return ResponseEntity.ok().body("Arsip uploaded & created successfully");
+//        } catch (IOException e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload file");
+//        }
+//    }
 }

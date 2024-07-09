@@ -14,9 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 import project.asap.arsip.domain.dto.TambahArsipRequest;
 import project.asap.arsip.domain.entity.Arsip;
 import project.asap.arsip.infrastructure.ArsipRepository;
+import project.asap.box.application.BoxService;
 import project.asap.exception.ResourceNotFoundException;
+import project.asap.gudang.application.GudangService;
+import project.asap.lemari.application.LemariService;
 import project.asap.penyimpanan.domain.entity.PenyimpananMapping;
 import project.asap.penyimpanan.infrastructure.PenyimpananMappingRepository;
+import project.asap.rak.application.RakService;
 import project.asap.utility.MessageResponse;
 import project.asap.utility.common.CommonUtils;
 import org.apache.poi.ss.usermodel.*;
@@ -32,11 +36,19 @@ public class ArsipServiceImpl implements ArsipService {
     private static final Logger logger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(ArsipServiceImpl.class);
     private final ArsipRepository arsipRepository;
     private final PenyimpananMappingRepository penyimpananMappingRepository;
+    private final GudangService gudangService;
+    private final LemariService lemariService;
+    private final RakService rakService;
+    private final BoxService boxService;
 
     @Autowired
-    public ArsipServiceImpl(ArsipRepository arsipRepository, PenyimpananMappingRepository penyimpananMappingRepository) {
+    public ArsipServiceImpl(ArsipRepository arsipRepository, PenyimpananMappingRepository penyimpananMappingRepository, GudangService gudangService, LemariService lemariService, RakService rakService, BoxService boxService) {
         this.arsipRepository = arsipRepository;
         this.penyimpananMappingRepository = penyimpananMappingRepository;
+        this.gudangService = gudangService;
+        this.lemariService = lemariService;
+        this.rakService = rakService;
+        this.boxService = boxService;
     }
 
     @Override
@@ -59,6 +71,12 @@ public class ArsipServiceImpl implements ArsipService {
 
     @Override
     public MessageResponse save(TambahArsipRequest request) {
+        String kodeBatch = gudangService.getById(request.getIdGudang()).getCode() + "." +
+                lemariService.getById(request.getIdLemari()).getCode() + "." +
+                rakService.getById(request.getIdRak()).getCode() + "." +
+                boxService.getById(request.getIdBox()).getCode();
+
+
         Arsip arsip = new Arsip();
         arsip.setIdTipeArsip(request.getIdTipeArsip());
         arsip.setKode(request.getKode());
@@ -73,13 +91,28 @@ public class ArsipServiceImpl implements ArsipService {
         arsip.setIdBox(request.getIdBox());
         arsip.setStatus(1);//1=disimpan, 0=dipinjam
         arsip.setNipPetugas(CommonUtils.getNipPegawai());
+        arsip.setKodeLokasi(kodeBatch);
         arsipRepository.save(arsip);
+
+        PenyimpananMapping penyimpananMapping = new PenyimpananMapping();
+        penyimpananMapping.setIdArsip(arsip.getId());
+        penyimpananMapping.setIdGudang(request.getIdGudang());
+        penyimpananMapping.setIdLemari(request.getIdLemari());
+        penyimpananMapping.setIdRak(request.getIdRak());
+        penyimpananMapping.setIdBox(request.getIdBox());
+        penyimpananMappingRepository.save(penyimpananMapping);
+
         logger.info("arsip created");
         return new MessageResponse("arsip created", HttpStatus.OK);
     }
 
     @Override
     public MessageResponse update(Long id, TambahArsipRequest request) {
+        String kodeBatch = gudangService.getById(request.getIdGudang()).getCode() + "." +
+                lemariService.getById(request.getIdLemari()).getCode() + "." +
+                rakService.getById(request.getIdRak()).getCode() + "." +
+                boxService.getById(request.getIdBox()).getCode();
+
         Arsip arsip = getById(id);
         arsip.setIdTipeArsip(request.getIdTipeArsip());
         arsip.setKode(request.getKode());
@@ -94,7 +127,17 @@ public class ArsipServiceImpl implements ArsipService {
         arsip.setIdBox(request.getIdBox());
         arsip.setStatus(1);//1=disimpan, 0=dipinjam
         arsip.setNipPetugas(CommonUtils.getNipPegawai());
+        arsip.setKodeLokasi(kodeBatch);
         arsipRepository.save(arsip);
+
+        PenyimpananMapping penyimpananMapping = penyimpananMappingRepository.findByIdArsip(id)
+                .orElseThrow(() -> new ResourceNotFoundException(PenyimpananMapping.class, "idArsip", id.toString()));
+        penyimpananMapping.setIdArsip(arsip.getId());
+        penyimpananMapping.setIdGudang(request.getIdGudang());
+        penyimpananMapping.setIdLemari(request.getIdLemari());
+        penyimpananMapping.setIdRak(request.getIdRak());
+        penyimpananMapping.setIdBox(request.getIdBox());
+        penyimpananMappingRepository.save(penyimpananMapping);
         logger.info("arsip updated");
         return new MessageResponse("arsip updated", HttpStatus.OK);
 

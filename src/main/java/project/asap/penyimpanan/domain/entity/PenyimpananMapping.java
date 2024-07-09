@@ -27,6 +27,14 @@ public class PenyimpananMapping extends AuditEntity {
     private Long idAtk;
     @Column(name = "id_arsip")
     private Long idArsip;
+    @Column(name = "id_gudang")
+    private Long idGudang;
+    @Column(name = "id_lemari")
+    private Long idLemari;
+    @Column(name = "id_rak")
+    private Long idRak;
+    @Column(name = "id_box")
+    private Long idBox;
     @Column(name = "kode_batch")
     private String kodeBatch;
     @JsonIgnore
