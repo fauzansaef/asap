@@ -1,6 +1,7 @@
 package project.asap.arsip.application;
 
 import org.springframework.data.domain.Page;
+import project.asap.arsip.domain.dto.ReqArsipRequest;
 import project.asap.arsip.domain.dto.TambahArsipRequest;
 import project.asap.arsip.domain.entity.Arsip;
 import project.asap.penyimpanan.domain.entity.PenyimpananMapping;
@@ -19,7 +20,7 @@ public interface ArsipService {
 
     MessageResponse delete(Long id);
 
-    MessageResponse saveFromExcel(InputStream inputStream);
-
     PenyimpananMapping getPenyimpananMapping(Long idArsip);
+
+    MessageResponse requestArsip(ReqArsipRequest reqArsipRequest);
 }

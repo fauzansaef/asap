@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.asap.arsip.domain.dto.ReqArsipRequest;
 import project.asap.arsip.domain.dto.TambahArsipRequest;
 import project.asap.arsip.domain.entity.Arsip;
 import project.asap.arsip.infrastructure.ArsipRepository;
@@ -24,11 +25,7 @@ import project.asap.rak.application.RakService;
 import project.asap.utility.MessageResponse;
 import project.asap.utility.common.CommonUtils;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Iterator;
 
 @Service
 @Transactional
@@ -155,39 +152,6 @@ public class ArsipServiceImpl implements ArsipService {
         }
     }
 
-    @Override
-    public MessageResponse saveFromExcel(InputStream inputStream) {
-        try {
-            Workbook workbook = new XSSFWorkbook(inputStream);
-            Sheet sheet = workbook.getSheetAt(0);
-            Iterator<Row> rows = sheet.iterator();
-
-            while (rows.hasNext()) {
-                Row currentRow = rows.next();
-
-                if (currentRow.getRowNum() == 0) { // Skip header row
-                    continue;
-                }
-
-                Arsip arsip = new Arsip();
-                arsip.setIdTipeArsip(getCellValueAsLong(currentRow.getCell(0)));
-                arsip.setKode(getCellValueAsString(currentRow.getCell(1)));
-                arsip.setNama(getCellValueAsString(currentRow.getCell(2)));
-                arsip.setTahun(getCellValueAsString(currentRow.getCell(3)));
-                arsip.setDeskripsi(getCellValueAsString(currentRow.getCell(4)));
-                arsip.setJumlahLembar(Integer.parseInt(getCellValueAsString(currentRow.getCell(5))));
-                arsip.setStatus(1); // 1=disimpan, 0=dipinjam
-                arsip.setNipPetugas(CommonUtils.getNipPegawai());
-
-                arsipRepository.save(arsip);
-            }
-
-            workbook.close();
-            return new MessageResponse("arsip from excel created", HttpStatus.OK);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to parse Excel file", e);
-        }
-    }
 
     @Override
     public PenyimpananMapping getPenyimpananMapping(Long idArsip) {
@@ -195,26 +159,11 @@ public class ArsipServiceImpl implements ArsipService {
                 .orElseThrow(() -> new ResourceNotFoundException(PenyimpananMapping.class, "idArsip", idArsip.toString()));
     }
 
-    private String getCellValueAsString(Cell cell) {
-        String cellValue;
-        if (cell.getCellType() == CellType.STRING) {
-            cellValue = cell.getStringCellValue();
-        } else if (cell.getCellType() == CellType.NUMERIC) {
-            cellValue = String.valueOf((int) cell.getNumericCellValue());
-        } else {
-            throw new IllegalArgumentException("Invalid cell type");
-        }
-        return cellValue;
+    @Override
+    public MessageResponse requestArsip(ReqArsipRequest reqArsipRequest) {
+        return null;
     }
 
-    private Long getCellValueAsLong(Cell cell) {
-        Long cellValue;
-        if (cell.getCellType() == CellType.NUMERIC) {
-            cellValue = (long) cell.getNumericCellValue();
-        } else {
-            throw new IllegalArgumentException("Invalid cell type");
-        }
-        return cellValue;
-    }
+
 
 }
