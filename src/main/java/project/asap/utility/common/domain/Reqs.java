@@ -44,8 +44,8 @@ public class Reqs extends AuditEntity {
     private String progresNote;
     @Column(name = "completed_note")
     private String completedNote;
-    @Column(name = "star")
-    private Integer star;
+    @Column(name = "start")
+    private Integer start;
     @Column(name = "comment")
     private String comment;
     @Column(name = "comment_at")
