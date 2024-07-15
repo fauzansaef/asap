@@ -98,11 +98,11 @@ public class RoomsServiceImpl implements RoomsService {
     @Override
     public MessageResponse delete(Long id) {
         if (roomsRepository.existsById(id)) {
-            roomsRepository.deleteById(id);
             if (getById(id).getPhoto() != null) {
                 filesService.delete(getById(id).getPhoto());
                 logger.info("delete photo room");
             }
+            roomsRepository.deleteById(id);
             logger.info("room deleted");
             return new MessageResponse("room deleted", HttpStatus.OK);
         } else {

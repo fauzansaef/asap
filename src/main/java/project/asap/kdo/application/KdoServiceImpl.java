@@ -108,11 +108,12 @@ public class KdoServiceImpl implements KdoService {
     @Override
     public MessageResponse delete(Long id) {
         if (kdoRepository.existsById(id)) {
-            kdoRepository.deleteById(id);
             if (getById(id).getPhoto() != null) {
                 filesService.delete(getById(id).getPhoto());
                 logger.info("delete photo kdo");
             }
+
+            kdoRepository.deleteById(id);
             logger.info("kdo deleted");
             return new MessageResponse("kdo deleted", HttpStatus.OK);
         } else {

@@ -105,12 +105,11 @@ public class BmnServiceImpl implements BmnService {
     @Override
     public MessageResponse delete(Long id) {
         if (bmnsRepository.existsById(id)) {
-            bmnsRepository.deleteById(id);
-
             if(getById(id).getPhoto() != null){
                 filesService.delete(getById(id).getPhoto());
                 logger.info("delete photo bmn");
             }
+            bmnsRepository.deleteById(id);
             logger.info("bmn deleted");
             return new MessageResponse("bmn deleted", HttpStatus.OK);
         } else {
