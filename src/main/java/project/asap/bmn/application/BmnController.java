@@ -10,6 +10,8 @@ import project.asap.bmn.domain.dto.BmnRequest;
 import project.asap.bmn.domain.entity.Bmns;
 import project.asap.utility.MessageResponse;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/bmns")
 @Tag(name = "BMN (Barang Milik Negara)", description = "API Transaction Barang Milik Negara")
@@ -36,12 +38,12 @@ public class BmnController {
     }
 
     @PostMapping("")
-    ResponseEntity<MessageResponse> save(@RequestBody BmnRequest bmnRequest) {
+    ResponseEntity<MessageResponse> save(@RequestBody @Valid BmnRequest bmnRequest) {
         return new ResponseEntity<>(bmnService.save(bmnRequest), HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
-    ResponseEntity<MessageResponse> update(@PathVariable Long id, @RequestBody BmnRequest bmnRequest) {
+    ResponseEntity<MessageResponse> update(@PathVariable Long id, @RequestBody @Valid BmnRequest bmnRequest) {
         return new ResponseEntity<>(bmnService.update(id, bmnRequest), HttpStatus.OK);
     }
 

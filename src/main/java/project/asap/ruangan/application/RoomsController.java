@@ -10,6 +10,8 @@ import project.asap.ruangan.domain.dto.RoomRequest;
 import project.asap.ruangan.domain.entity.Rooms;
 import project.asap.utility.MessageResponse;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/rooms")
 @Tag(name = "Rooms", description = "API Transaction room")
@@ -36,12 +38,12 @@ public class RoomsController {
     }
 
     @PostMapping("")
-    ResponseEntity<MessageResponse> save(@RequestBody RoomRequest roomRequest) {
+    ResponseEntity<MessageResponse> save(@RequestBody @Valid RoomRequest roomRequest) {
         return new ResponseEntity<>(roomsService.save(roomRequest), HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
-    ResponseEntity<MessageResponse> update(@PathVariable Long id, @RequestBody RoomRequest roomRequest) {
+    ResponseEntity<MessageResponse> update(@PathVariable Long id, @RequestBody @Valid RoomRequest roomRequest) {
         return new ResponseEntity<>(roomsService.update(id, roomRequest), HttpStatus.OK);
     }
 

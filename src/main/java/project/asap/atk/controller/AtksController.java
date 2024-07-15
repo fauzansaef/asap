@@ -48,13 +48,13 @@ public class AtksController {
     }
 
     @PostMapping("/tambahatk")
-    public MessageResponse tambahAtk(@RequestBody Atks atk,
+    public MessageResponse tambahAtk(@RequestBody @Valid Atks atk,
                                      @RequestParam(defaultValue = "true") Boolean autoGenerateCode) {
         return atkService.addAtk(atk, autoGenerateCode);
     }
 
     @PatchMapping("/editatk")
-    public MessageResponse editAtk(@RequestBody Atks atk, @RequestParam Integer id) {
+    public MessageResponse editAtk(@RequestBody @Valid Atks atk, @RequestParam Integer id) {
         return atkService.editAtk(atk, id);
     }
 
