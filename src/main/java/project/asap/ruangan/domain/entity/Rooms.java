@@ -3,6 +3,7 @@ package project.asap.ruangan.domain.entity;
 import lombok.Data;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import project.asap.users.domain.entity.Users;
 import project.asap.utility.common.AuditEntity;
 
 import javax.persistence.*;
@@ -30,5 +31,14 @@ public class Rooms extends AuditEntity {
     private Integer ready;
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+    @Column(name = "lokasi")
+    private String lokasi;
+    @Column(name = "kapasitas")
+    private String kapasitas;
+    @Column(name = "pic")
+    private Long pic;
+    @ManyToOne
+    @JoinColumn(name = "pic", insertable = false, updatable = false)
+    private Users user;
 
 }

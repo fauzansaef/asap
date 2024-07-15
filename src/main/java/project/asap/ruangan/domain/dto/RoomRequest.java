@@ -8,4 +8,7 @@ public class RoomRequest {
     private String namaRuangan;
     private String deskripsi;
     private String photo;
+    private String lokasi;
+    private String kapasitas;
+    private Long idUser;
 }

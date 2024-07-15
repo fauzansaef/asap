@@ -13,4 +13,5 @@ public class BmnRequest {
     private String status;
     private String namaPenanggungJawab;
     private String tahunPengadaan;
+    private Long idUser;
 }

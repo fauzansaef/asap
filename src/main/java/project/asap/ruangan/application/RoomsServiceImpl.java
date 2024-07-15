@@ -57,6 +57,9 @@ public class RoomsServiceImpl implements RoomsService {
             rooms.setDeskripsi(roomRequest.getDeskripsi());
             rooms.setPhoto(roomRequest.getPhoto());
             rooms.setReady(1);
+            rooms.setLokasi(roomRequest.getLokasi());
+            rooms.setKapasitas(roomRequest.getKapasitas());
+            rooms.setPic(roomRequest.getIdUser());
             roomsRepository.save(rooms);
             logger.info("room created");
             return new MessageResponse("room created", HttpStatus.OK);
@@ -80,6 +83,9 @@ public class RoomsServiceImpl implements RoomsService {
             }
 
             rooms.setPhoto(roomRequest.getPhoto());
+            rooms.setLokasi(roomRequest.getLokasi());
+            rooms.setKapasitas(roomRequest.getKapasitas());
+            rooms.setPic(roomRequest.getIdUser());
             roomsRepository.save(rooms);
             logger.info("room updated");
             return new MessageResponse("room updated", HttpStatus.OK);

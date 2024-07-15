@@ -3,6 +3,7 @@ package project.asap.bmn.domain.entity;
 import lombok.Data;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import project.asap.users.domain.entity.Users;
 import project.asap.utility.common.AuditEntity;
 
 import javax.persistence.*;
@@ -40,5 +41,10 @@ public class Bmns extends AuditEntity {
     private String kodeLokasi;
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+    @Column(name = "pic")
+    private Long pic;
+    @ManyToOne
+    @JoinColumn(name = "pic", insertable = false, updatable = false)
+    private Users user;
 
 }
