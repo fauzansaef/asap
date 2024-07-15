@@ -13,8 +13,10 @@
  - tambahkan status 0 pada arsip jika pertama kali di upload excel
 
  TODO ASAP:
- - Laporan isi Boks.
+ - Laporan isi Boks (param nya kode batch)
  - Relasi Tipe Arsip
- - Laporan isi tiap arsip (Count dan List Arsip yg sesuai dengan tipe arsip yg dipilih).
- - Loader pengguna (Kolom yg dibutuhkan nama, nip, email). Untuk role secara default dibikin jadi role user semua dulu aja.
- - Migrasi aplikasi asap lama ke asap baru (Database dari asap lama ke asap baru).
+ - Laporan isi tiap arsip (Count dan List Arsip yg sesuai dengan tipe arsip yg dipilih)
+ - Loader pengguna (Kolom yg dibutuhkan nama, nip, email). Untuk role secara default dibikin jadi role user semua dulu aja = 3.
+ - Migrasi aplikasi asap lama ke asap baru (Database dari asap lama ke asap baru). done
+ - Atk belum paging
+ - Tambahin kode pada arsip

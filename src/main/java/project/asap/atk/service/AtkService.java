@@ -3,6 +3,10 @@ package project.asap.atk.service;
 import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -63,13 +67,15 @@ public class AtkService {
         return atkRepository.findById(id);
     }
 
-    public List<Atks> listAllAtk(String kode, String nama) {
+    public Page<Atks> listAllAtk(int page, int size, String sort, String order, String kode, String nama) {
+        Sort.Direction direction = Sort.Direction.fromString(order);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sort));
         kode = ("".equals(kode)) ? null : kode;
         nama = ("".equals(nama)) ? null : nama;
 
         Specification<Atks> spec =
                 AtksRepository.AtksSpecifications.combinedSpecificationAndNotDeleted(kode, nama);
-        return atkRepository.findAll(spec);
+        return atkRepository.findAll(spec,pageable);
     }
 
     public MessageResponse addAtk(Atks atk, Boolean auto) {

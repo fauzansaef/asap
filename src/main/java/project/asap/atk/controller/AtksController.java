@@ -4,6 +4,7 @@ import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import project.asap.atk.dto.DetailPembelianAtkRequest;
@@ -37,10 +38,13 @@ public class AtksController {
     }
 
     @GetMapping("/listallatk")
-    public List<Atks> listAllAtks(
-            @RequestParam(name = "kode", required = false) String kode,
-            @RequestParam(name = "nama", required = false) String nama) {
-        return atkService.listAllAtk(kode, nama);
+    public Page<Atks> listAllAtks(@RequestParam(defaultValue = "0") int page,
+                                  @RequestParam(defaultValue = "10") int size,
+                                  @RequestParam(defaultValue = "id") String sort,
+                                  @RequestParam(defaultValue = "asc") String order,
+                                  @RequestParam(name = "kode", required = false) String kode,
+                                  @RequestParam(name = "nama", required = false) String nama) {
+        return atkService.listAllAtk(page, size, sort, order, kode, nama);
     }
 
     @PostMapping("/tambahatk")
