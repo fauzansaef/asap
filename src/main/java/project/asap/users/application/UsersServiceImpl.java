@@ -124,14 +124,11 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public MessageResponse delete(Long id) {
         if (usersRepository.existsById(id)) {
-            usersRepository.deleteById(id);
-
-
             if (getById(id).getPhoto() != null) {
                 filesService.delete(getById(id).getPhoto());
                 logger.info("delete photo user");
             }
-
+            usersRepository.deleteById(id);
             logger.info("user deleted");
             return new MessageResponse("success", HttpStatus.OK);
         } else {
